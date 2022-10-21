@@ -1,56 +1,83 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addUsers, getAllUsers, addOneUser } from './features/users/userSlice';
+import { ViewButton } from './component/ViewButton'
+import { Modal } from './component/Modal'
+import { data } from './__mocks__';
 import './App.css';
 
 function App() {
+  const dispatch = useDispatch();
+  const users = useSelector(getAllUsers)
+  const [isOpen, setIsOpne] = useState(false);
+
+
+  const [isAllUsers, setIsAllUsers] = useState(false)
+  const fetchUsers= async () => {
+    if(isAllUsers) {
+      dispatch(addUsers(data))
+    } else {
+      dispatch(addUsers(data.slice(0, 3)))
+    }
+  }
+
+  const hideAll = () => {
+    setIsAllUsers(false)
+  }
+
+  const showAll = () => {
+    setIsAllUsers(true)
+  }
+
+  
+
+  const handleModalClose = () => {
+    dispatch(addOneUser({}));
+    setIsOpne(false);
+  }
+  useEffect(() => {
+    fetchUsers()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },  [isAllUsers])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="wrapper">
+      <div className='container'>
+        {users ? <div className='users-wrapper'>
+          {users.map((item: any) => (
+            <div key={`${item.phone}`} className='user-wrapper__border'>
+              <div className="users-card">
+              <div className='users-info'>
+                <img 
+                  alt={item.photo} 
+                  src={`${process.env.PUBLIC_URL}/img/${item.photo}`} 
+                  className="users-img"
+                />
+                <div>
+                  <p className='users-name'>{item.name}</p>
+                  <p className='users-nickname'>{item.nickname}</p>
+                </div>
+              </div>
+              <ViewButton setIsOpne={setIsOpne} name={item.name} />
+            </div>
+            </div>
+          ))}
+          {
+            isAllUsers ?<div 
+            className='btn'
+            onClick={hideAll}
           >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
+            Hide
+          </div> : <div 
+            className='btn'
+            onClick={showAll}
           >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
+            View All
+          </div>
+          }
+          
+        </div> : <div>Not users</div>}
+      </div>
+      <Modal isShowing={isOpen} hide={handleModalClose}/>
     </div>
   );
 }

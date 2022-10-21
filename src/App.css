@@ -1,39 +1,78 @@
-.App {
-  text-align: center;
+.wrapper {
+  margin: 0 auto;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-float infinite 3s ease-in-out;
-  }
-}
-
-.App-header {
-  min-height: 100vh;
+.container {
+  max-width: 1440px;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.users-wrapper {
+  border: 2px solid #808080d6;
+  min-width: 500px;
+}
+
+@media only screen and (max-width : 540px) {
+  .users-wrapper {
+    min-width: 300px;
+  }
+}
+
+.user-wrapper__border {
+  border-bottom:1px solid #80808052; ;
+
+}
+
+.users-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 20px;
+}
+
+.users-info {
+  display: flex;
+  column-gap: 20px;
+  align-items: center;
+}
+
+.users-name {
+  font-size: 14px;
+  color: #363636  ;
+  font-weight: 500;
+}
+
+.users-nickname {
+  font-size: 14px;
+  color: #808080;
+}
+
+.users-img {
+  width: 50px;
+  height: 50px;
+
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.btn {
+  padding: 10px 0;
+  border: 1px solid #80808052;
+  color: black;
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  align-items: center;
+  margin: 10px;
+  cursor: pointer;
 }
 
-.App-link {
-  color: rgb(112, 76, 182);
-}
-
-@keyframes App-logo-float {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(10px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
+.user-btn {
+  padding: 5px 8px;
+  border: 1px solid gray;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
 }
